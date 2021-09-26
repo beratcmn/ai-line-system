@@ -23,12 +23,12 @@ def ScanQR():
     while True:
         ret, frame = cap.read()
         returnData = decoder(frame)
-        cv2.imshow('Yüz Tanıma Sistemi', frame)
+        cv2.imshow('Les Benjamins', frame)
         code = cv2.waitKey(10)
         if code == ord('q'):
             break
         if returnData != None:
             return returnData
-    
+
     cap.release()
     cv2.destroyAllWindows()
