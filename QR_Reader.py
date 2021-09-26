@@ -29,3 +29,6 @@ def ScanQR():
             break
         if returnData != None:
             return returnData
+    
+    cap.release()
+    cv2.destroyAllWindows()
