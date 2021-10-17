@@ -9,7 +9,7 @@ import json
 waitingUsers = []
 
 
-def ScanAndAddUser():
+""" def ScanAndAddUser():
     global waitingUsers
 
     scannedData = json.loads(ScanQR())
@@ -36,6 +36,8 @@ def ScanAndAddUser():
                 user)].placeInLine = len(waitingUsers)
             print("\nKullanıcı eklendi. \n")
 
+
+
     print("-----------------------------")
     print("Şu an " + str(len(waitingUsers)) + " kişi sırada bekliyor.")
     print("-----------------------------")
@@ -46,7 +48,29 @@ def ScanAndAddUser():
         print("Sıradaki Konumu: " + str(i.placeInLine))
         print("Kalan Süre: " + str(int(i.remainingTime / 60)) +
               " dakika " + str(int(i.remainingTime % 60)) + " saniye")
-        print("-----------------------------")
+        print("-----------------------------") """
+
+
+def ScanAndAddUser():
+    global waitingUsers
+
+    scannedData = json.loads(ScanQR())
+
+    newUser = User(scannedData["name"],
+                   scannedData["surname"],
+                   scannedData["id"])
+    if len(waitingUsers) == 0:
+        waitingUsers.append(newUser)
+    else:
+        if newUser in waitingUsers:
+            newUser.RenewTime()
+
+    for user in waitingUsers:
+        print(User(user).name)
+        print(User(user).surname)
+        print(User(user).id)
+        print(User(user).remainingTime)
+        print(User(user).placeInLine)
 
 
 def createUserButton_command():
