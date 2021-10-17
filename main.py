@@ -49,11 +49,11 @@ def ScanAndAddUser():
         print("-----------------------------")
 
 
-def createUserButton_command(self):
+def createUserButton_command():
     GenerateQR("Berat", "Çimenn")
 
 
-def scanUserButton_command(self):
+def scanUserButton_command():
     ScanAndAddUser()
 
 
@@ -103,6 +103,7 @@ def GenerateGUI():
     scanUserButton["relief"] = "flat"
     scanUserButton.place(x=330, y=120, width=200, height=200)
     scanUserButton["command"] = scanUserButton_command
+    root.mainloop()
 
 
 GenerateGUI()

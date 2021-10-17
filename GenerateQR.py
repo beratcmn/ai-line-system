@@ -10,6 +10,7 @@ def GenerateQR(_name: str, _surname: str):
         "id": str(_id)
     }
 
+    print(str(datadict))
     img = qrcode.make(str(datadict))
 
     img.save('user.png')
