@@ -55,10 +55,11 @@ def ScanAndAddUser():
     global waitingUsers
 
     scannedData = json.loads(ScanQR())
+    scannedData = dict(scannedData)
 
-    newUser = User(scannedData["name"],
-                   scannedData["surname"],
-                   scannedData["id"])
+    newUser = User(name=str(scannedData["name"]),
+                   surname=str(scannedData["surname"]),
+                   id=str(scannedData["id"]))
     if len(waitingUsers) == 0:
         waitingUsers.append(newUser)
     else:
@@ -66,11 +67,11 @@ def ScanAndAddUser():
             newUser.RenewTime()
 
     for user in waitingUsers:
-        print(User(user).name)
-        print(User(user).surname)
-        print(User(user).id)
-        print(User(user).remainingTime)
-        print(User(user).placeInLine)
+        print(user.name)
+        print(user.surname)
+        print(user.id)
+        print(user.remainingTime)
+        print(user.placeInLine)
 
 
 def createUserButton_command():
