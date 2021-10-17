@@ -1,29 +1,15 @@
-from dataclasses import dataclass
 from QR_Reader import ScanQR
+from GenerateQR import GenerateQR
+from User import User
+import tkinter as tk
+import tkinter.font as tkFont
 import time
 import json
 
 waitingUsers = []
 
 
-@dataclass
-class User:
-    name: str
-    id: str
-
-    placeInLine = 0
-    remainingTime = 0
-
-    def renewTime(self):
-        self.remainingTime = 1200  # saniye cinsinden kalan süre
-
-    def decreaseTime(self):
-        self.remainingTime = self.remainingTime - 1
-
-        # TODO her 3 dakika da bir bütün kullanıcıları kontrol edip sürelerini azalt
-
-
-def main():
+def ScanAndAddUser():
     global waitingUsers
 
     scannedData = json.loads(ScanQR())
@@ -63,5 +49,60 @@ def main():
         print("-----------------------------")
 
 
-while True:
-    main()
+def createUserButton_command(self):
+    GenerateQR("Berat", "Çimenn")
+
+
+def scanUserButton_command(self):
+    ScanAndAddUser()
+
+
+def GenerateGUI():
+    root = tk.Tk()
+    root.title("Sıra Kontrol Sistemi")
+    root.iconbitmap("icon.ico")
+    width = 600
+    height = 500
+    screenwidth = root.winfo_screenwidth()
+    screenheight = root.winfo_screenheight()
+    alignstr = '%dx%d+%d+%d' % (width, height,
+                                (screenwidth - width) / 2, (screenheight - height) / 2)
+    root.geometry(alignstr)
+    root.resizable(width=False, height=False)
+
+    GLabel_725 = tk.Label(root)
+    GLabel_725["cursor"] = "arrow"
+    ft = tkFont.Font(family='Times', size=22)
+    GLabel_725["font"] = ft
+    GLabel_725["fg"] = "#333333"
+    GLabel_725["justify"] = "center"
+    GLabel_725["text"] = "Versiyon 0.1"
+    GLabel_725.place(x=220, y=0, width=150, height=44)
+
+    createUserButton = tk.Button(root)
+    createUserButton["activebackground"] = "#393d49"
+    createUserButton["bg"] = "#01aaed"
+    ft = tkFont.Font(family='Times', size=22)
+    createUserButton["font"] = ft
+    createUserButton["fg"] = "#ffffff"
+    createUserButton["justify"] = "center"
+    createUserButton["text"] = "Kullanıcı Oluştur"
+    createUserButton["relief"] = "flat"
+    createUserButton.place(x=80, y=120, width=200, height=200)
+    createUserButton["command"] = createUserButton_command
+
+    scanUserButton = tk.Button(root)
+    scanUserButton["activebackground"] = "#393d49"
+    scanUserButton["bg"] = "#00ced1"
+    scanUserButton["cursor"] = "arrow"
+    ft = tkFont.Font(family='Times', size=22)
+    scanUserButton["font"] = ft
+    scanUserButton["fg"] = "#ffffff"
+    scanUserButton["justify"] = "center"
+    scanUserButton["text"] = "Kullanıcı Tara"
+    scanUserButton["relief"] = "flat"
+    scanUserButton.place(x=330, y=120, width=200, height=200)
+    scanUserButton["command"] = scanUserButton_command
+
+
+GenerateGUI()
