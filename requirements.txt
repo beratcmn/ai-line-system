@@ -1,0 +1,5 @@
+qrcode[pil]
+dataclasses
+opencv-python
+numpy
+pyzbar
