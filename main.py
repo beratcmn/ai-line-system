@@ -5,6 +5,7 @@ import tkinter as tk
 import tkinter.font as tkFont
 import time
 import json
+import threading
 
 waitingUsers = []
 
@@ -62,6 +63,7 @@ def ScanAndAddUser():
                    id=str(scannedData["id"]))
     if len(waitingUsers) == 0:
         waitingUsers.append(newUser)
+        newUser.RenewTime()
     else:
         if newUser in waitingUsers:
             newUser.RenewTime()
@@ -75,11 +77,22 @@ def ScanAndAddUser():
 
 
 def createUserButton_command():
-    GenerateQR("Berat", "Çimenn")
+    GenerateQR("Berat", "Çimen")
 
 
 def scanUserButton_command():
     ScanAndAddUser()
+
+
+def DecreaseAllTime():
+    global waitingUsers
+
+    while True:
+        if len(waitingUsers) != 0:
+            for _user in waitingUsers:
+                _user.DecreaseTime()
+                print(_user.remainingTime)
+                time.sleep(1)
 
 
 def GenerateGUI():
@@ -131,4 +144,8 @@ def GenerateGUI():
     root.mainloop()
 
 
+# GenerateGUI()
+
+#threading.Thread(target=GenerateGUI).start()
+threading.Thread(target=DecreaseAllTime).start()
 GenerateGUI()
