@@ -6,6 +6,8 @@ import tkinter.font as tkFont
 import time
 import json
 import threading
+from multiprocessing import Process
+import multiprocessing
 
 waitingUsers = []
 
@@ -93,6 +95,8 @@ def DecreaseAllTime():
                 _user.DecreaseTime()
                 print(_user.remainingTime)
                 time.sleep(1)
+        else:
+            print("Kullanıcı bulunamadı.")
 
 
 def GenerateGUI():
@@ -146,6 +150,17 @@ def GenerateGUI():
 
 # GenerateGUI()
 
-#threading.Thread(target=GenerateGUI).start()
-threading.Thread(target=DecreaseAllTime).start()
-GenerateGUI()
+# threading.Thread(target=GenerateGUI).start()
+# threading.Thread(target=DecreaseAllTime).start()
+# GenerateGUI()
+
+processes = []
+for i in range(multiprocessing.cpu_count()):
+    print('registering process %d' % i)
+    processes.append(Process(target=GenerateGUI))
+    processes.append(Process(target=DecreaseAllTime))
+
+for process in processes:
+    process.start()
+for process in processes:
+    process.join()
