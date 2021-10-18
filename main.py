@@ -83,20 +83,21 @@ def createUserButton_command():
 
 
 def scanUserButton_command():
-    ScanAndAddUser()
+    Process(target=ScanAndAddUser).start()
+    Process(target=ScanAndAddUser).join()
 
 
 def DecreaseAllTime():
     global waitingUsers
-
     while True:
         if len(waitingUsers) != 0:
             for _user in waitingUsers:
                 _user.DecreaseTime()
                 print(_user.remainingTime)
                 time.sleep(1)
-        else:
-            print("Kullanıcı bulunamadı.")
+            else:
+                print("Kullanıcı bulunamadı.")
+                time.sleep(1)
 
 
 def GenerateGUI():
