@@ -83,8 +83,9 @@ def createUserButton_command():
 
 
 def scanUserButton_command():
-    Process(target=ScanAndAddUser).start()
-    Process(target=ScanAndAddUser).join()
+    # Process(target=ScanAndAddUser).start()
+    # Process(target=ScanAndAddUser).join()
+    ScanAndAddUser()
 
 
 def DecreaseAllTime():
