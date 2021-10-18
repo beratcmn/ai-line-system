@@ -101,6 +101,17 @@ def DecreaseAllTime():
             time.sleep(1)
 
 
+def Test_showUsers():
+    global waitingUsers
+
+    if len(waitingUsers) != 0:
+        print("Bekleyen sayısı: " + str(len(waitingUsers)))
+        for _user in waitingUsers:
+            print(str(_user.name))
+
+    time.sleep(5)
+
+
 def GenerateGUI():
     root = tk.Tk()
     root.title("Sıra Kontrol Sistemi")
