@@ -9,6 +9,7 @@ import threading
 from multiprocessing import Process
 import multiprocessing
 
+
 waitingUsers = []
 
 
@@ -179,3 +180,6 @@ if __name__ == "__main__":
         process.start()
     for process in processes:
         process.join()
+
+    # TODO find a way to share data between threads
+    # TODO Method 1: perotically write data to a local file (like txt) then read it from other process
