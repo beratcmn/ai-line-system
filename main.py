@@ -155,12 +155,13 @@ def GenerateGUI():
 # GenerateGUI()
 
 processes = []
-for i in range(multiprocessing.cpu_count()):
-    print('registering process %d' % i)
-    processes.append(Process(target=GenerateGUI))
-    processes.append(Process(target=DecreaseAllTime))
 
-for process in processes:
-    process.start()
-for process in processes:
-    process.join()
+processes.append(Process(target=DecreaseAllTime))
+processes.append(Process(target=GenerateGUI))
+
+
+if __name__ == "__main__":
+    for process in processes:
+        process.start()
+    for process in processes:
+        process.join()
