@@ -83,7 +83,7 @@ def createUserButton_command():
 
 
 def scanUserButton_command():
-    # Process(target=ScanAndAddUser).start()
+    # Process(target=ScanAndAddUser).start().join()
     # Process(target=ScanAndAddUser).join()
     ScanAndAddUser()
 
@@ -97,19 +97,19 @@ def DecreaseAllTime():
                 print(_user.remainingTime)
                 time.sleep(1)
         else:
-            print("Kullanıcı bulunamadı.")
+            #print("Kullanıcı bulunamadı.")
             time.sleep(1)
 
 
 def Test_showUsers():
     global waitingUsers
-
-    if len(waitingUsers) != 0:
-        print("Bekleyen sayısı: " + str(len(waitingUsers)))
-        for _user in waitingUsers:
-            print(str(_user.name))
-
-    time.sleep(5)
+    while True:
+        if len(waitingUsers) != 0:
+            for _user in waitingUsers:
+                print(str(_user.name))
+        else:
+            print("Bekleyen sayısı: " + str(len(waitingUsers)))
+        time.sleep(5)
 
 
 def GenerateGUI():
@@ -171,6 +171,7 @@ processes = []
 
 processes.append(Process(target=DecreaseAllTime))
 processes.append(Process(target=GenerateGUI))
+processes.append(Process(target=Test_showUsers))
 
 
 if __name__ == "__main__":
