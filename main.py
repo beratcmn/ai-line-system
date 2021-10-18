@@ -96,9 +96,9 @@ def DecreaseAllTime():
                 _user.DecreaseTime()
                 print(_user.remainingTime)
                 time.sleep(1)
-            else:
-                print("Kullanıcı bulunamadı.")
-                time.sleep(1)
+        else:
+            print("Kullanıcı bulunamadı.")
+            time.sleep(1)
 
 
 def GenerateGUI():
