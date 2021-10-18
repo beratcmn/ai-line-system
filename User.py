@@ -15,5 +15,3 @@ class User:
 
     def DecreaseTime(self):
         self.remainingTime = self.remainingTime - 1
-
-        # TODO her 3 dakika da bir bütün kullanıcıları kontrol edip sürelerini azalt
