@@ -6,6 +6,9 @@ from GenerateQR import QRGenerator
 
 from dataclasses import dataclass
 
+import random
+
+
 # from Class.User import User # TODO MAKE IT WORK
 
 # to start the server: python -m uvicorn main:app --reload
@@ -14,25 +17,30 @@ from dataclasses import dataclass
 # <-- Declerations -->
 app = FastAPI()
 
+ids = []
+users = []
 
-@dataclass
+
+@dataclass(init=True)
 class User:
     name: str
     surname: str
-    id: str
+
+    id = 0
 
     placeInLine = 0
     remainingTime = 0
+
+    def SetID(self):
+        self.id = random.randint(1000, 9999)
+        while self.id in ids:
+            self.id = random.randint(1000, 9999)
 
     def RenewTime(self):
         self.remainingTime = 1200  # saniye cinsinden kalan süre
 
     def DecreaseTime(self):
         self.remainingTime = self.remainingTime - 1
-
-
-test_user = User("Berat", "Çimen", 210217017)
-users = [test_user]  # user list   #old_id and object pairs
 
 
 # <-- API Functions -->
@@ -51,4 +59,27 @@ def get_users(user_id):
         "Name": current.name,
         "Surname": current.surname,
         "ID": current.id
+    }
+
+
+@app.get("/get-ids")
+def get_ids():
+    global ids
+    ids = []
+    ids_names = {}
+    for _user in users:
+        ids_names[_user.name] = _user.id
+
+    return ids_names
+
+
+@app.post("/create-user/")
+def create_user(_user: User):
+    global users
+    _user.SetID()
+    users.append(_user)
+    return {
+        "Name": _user.name,
+        "Surname": _user.surname,
+        "ID": _user.id
     }
