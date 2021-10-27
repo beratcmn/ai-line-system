@@ -1,16 +1,11 @@
 import qrcode
-import random
 
 
 class QRGenerator:
 
     ids = []
 
-    def GenerateQR(self, _name: str, _surname: str):
-        _id = random.randint(1000, 9999)
-        while _id in self.ids:
-            _id = random.randint(1000, 9999)
-
+    def GenerateQR(self, _name: str, _surname: str, _id: int):
         datadict = {
             "name": _name,
             "surname": _surname,
@@ -19,6 +14,7 @@ class QRGenerator:
 
         datadict = str(datadict).replace("'", '"')
         print(datadict)
+
         img = qrcode.make(datadict)
 
-        img.save('user.png')
+        img.save(str(_id) + ".png")
