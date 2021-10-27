@@ -17,6 +17,8 @@ import random
 # <-- Declerations -->
 app = FastAPI()
 
+qrGenerator = QRGenerator()
+
 ids = []
 users = []
 
@@ -76,10 +78,17 @@ def get_ids():
 @app.post("/create-user/")
 def create_user(_user: User):
     global users
+    global ids
+    global qrGenerator
+
+    ids = []
     _user.SetID()
     users.append(_user)
-    return {
-        "Name": _user.name,
-        "Surname": _user.surname,
-        "ID": _user.id
-    }
+
+    for _user in users:
+        ids.append(_user.id)
+
+    qrGenerator.ids = ids
+    qrGenerator.GenerateQR(_user.name, _user.surname, _user.id)
+
+    return FileResponse(str(_user.id) + ".png")
