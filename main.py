@@ -5,9 +5,9 @@ import tkinter as tk
 import tkinter.font as tkFont
 import time
 import json
-import threading
 from multiprocessing import Process
 import multiprocessing
+import sqlite3 as sl
 
 
 waitingUsers = []
@@ -102,17 +102,6 @@ def DecreaseAllTime():
             time.sleep(1)
 
 
-def Test_showUsers():
-    global waitingUsers
-    while True:
-        if len(waitingUsers) != 0:
-            for _user in waitingUsers:
-                print(str(_user.name))
-        else:
-            print("Bekleyen sayısı: " + str(len(waitingUsers)))
-        time.sleep(5)
-
-
 def GenerateGUI():
     root = tk.Tk()
     root.title("Sıra Kontrol Sistemi")
@@ -162,17 +151,40 @@ def GenerateGUI():
     root.mainloop()
 
 
+def CollectUsers():
+    con = sl.connect("users.db")
+
+    try:
+        with con:
+            con.execute("""
+                CREATE TABLE USER (
+                    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                    name TEXT,
+                    surname TEXT
+                );
+            """)
+    except:
+        pass
+
+    data = con.execute("SELECT * FROM USER")
+    print(data)
+
 # GenerateGUI()
 
 # threading.Thread(target=GenerateGUI).start()
 # threading.Thread(target=DecreaseAllTime).start()
 # GenerateGUI()
 
+
 processes = []
 
-processes.append(Process(target=DecreaseAllTime))
-processes.append(Process(target=GenerateGUI))
-processes.append(Process(target=Test_showUsers))
+process_time_decrease = Process(target=DecreaseAllTime)
+process_generate_gui = Process(target=GenerateGUI)
+process_collect_users = Process(target=CollectUsers)
+
+processes.append(process_time_decrease)
+processes.append(process_generate_gui)
+processes.append(process_collect_users)
 
 
 if __name__ == "__main__":
