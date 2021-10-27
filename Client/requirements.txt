@@ -3,5 +3,3 @@ dataclasses
 opencv-python
 numpy
 pyzbar
-fastapi
-uvicorn
